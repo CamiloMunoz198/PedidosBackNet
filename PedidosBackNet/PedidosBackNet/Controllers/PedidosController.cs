@@ -24,9 +24,14 @@ namespace PedidosBackNet.Controllers
             => await base.CrearOrdenSV(pedidoEN);
 
         [HttpGet("ObtenerProductos")]
-            public override async Task<IActionResult> ObtenerProductosSV()
+        public override async Task<IActionResult> ObtenerProductosSV()
             => await base.ObtenerProductosSV();
 
-
+        [HttpGet("ObtenerClientes")]
+        public override async Task<IActionResult> ObtenerClientesSV()
+            => await base.ObtenerClientesSV();
+        [HttpGet("ObtenerInventario")]
+        public override async Task<IActionResult> ObtenerInventarioSV()
+            => await base.ObtenerInventarioSV();
     }
 }

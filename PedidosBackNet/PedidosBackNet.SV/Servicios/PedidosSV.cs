@@ -42,5 +42,36 @@ namespace PedidosBackNet.SV.Servicios
                 return StatusCode(500, new Dictionary<string, object>() { { "Mensaje", $"Error al consultar Productos ObtenerProductosSV:{ex.Message}" } });
             }
         }
+
+        public virtual async Task<IActionResult> ObtenerInventarioSV()
+        {
+            try
+            {
+                pedidosLN = new PedidosLN(configuration, environment);
+                await pedidosLN.ObtenerInventarioLN();
+                return StatusCode(pedidosLN.respuestas.Estado, pedidosLN.respuestas);
+            }
+            catch (Exception ex)
+            {
+                //Agregar un log de error aquí si es necesario con mensajes más detallados por correo
+                return StatusCode(500, new Dictionary<string, object>() { { "Mensaje", $"Error al consultar el Inventario ObtenerInventarioSV:{ex.Message}" } });
+            }
+        }
+
+
+        public virtual async Task<IActionResult> ObtenerClientesSV()
+        {
+            try
+            {
+                pedidosLN = new PedidosLN(configuration, environment);
+                await pedidosLN.ObtenerClientesLN();
+                return StatusCode(pedidosLN.respuestas.Estado, pedidosLN.respuestas);
+            }
+            catch (Exception ex)
+            {
+                //Agregar un log de error aquí si es necesario con mensajes más detallados por correo
+                return StatusCode(500, new Dictionary<string, object>() { { "Mensaje", $"Error al consultar Clientes ObtenerClientesSV:{ex.Message}" } });
+            }
+        }
     }
 }
