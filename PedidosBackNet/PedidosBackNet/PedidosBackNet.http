@@ -1,0 +1,6 @@
+@PedidosBackNet_HostAddress = http://localhost:5100
+
+GET {{PedidosBackNet_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
