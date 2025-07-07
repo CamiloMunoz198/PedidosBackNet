@@ -5,6 +5,7 @@ using PedidosBackNet.AD.Contextos;
 using PedidosBackNet.AD.Entidades;
 using PedidosBackNet.EN.Modelos;
 using PedidosBackNet.LN.Base;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
@@ -35,18 +36,42 @@ namespace PedidosBackNet.LN.Logica
                     // Verificar el resultado y establecer la respuesta
                     try
                     {
-                        var nuevaOrden = new Orden {
-                            IdCliente        = pedidoEN.IdCliente,
-                            IdProducto       =pedidoEN.IdProducto,
-                            IdAlmacenamiento =pedidoEN.IdAlmacenamiento,
-                            IdCanal          =pedidoEN.IdCanal,
-                            Cantidad         =pedidoEN.Cantidad,
-                            FechaCreacion    =DateTime.Now,
-                            UsuarioCreacion  =pedidoEN.UsuarioCreacion,
-                            Activo           =true,
-                       };
+                        var nuevaOrden = new Orden
+                        {
+                            IdCliente = pedidoEN.IdCliente,
+                            IdProducto = pedidoEN.IdProducto,
+                            IdAlmacenamiento = pedidoEN.IdAlmacenamiento,
+                            IdCanal = pedidoEN.IdCanal,
+                            Cantidad = pedidoEN.Cantidad,
+                            FechaCreacion = DateTime.Now,
+                            UsuarioCreacion = pedidoEN.UsuarioCreacion,
+                            Activo = true,
+                        };
                         pedidosDBContextAD.Orden.Add(nuevaOrden);
                         pedidosDBContextAD.SaveChanges();
+
+                        var ran = new Random().Next(0, 100);
+                        //Datos de integracion con el proveedor No Implementado aun
+                        EntregaEN entregaEN = new EntregaEN()
+                        {
+                            CodigoEntrega = "ENT-" + Convert.ToString(ran),
+                            IdEstatusEntrega=1
+                        };
+
+
+                        var nuevaEntrega = new Entrega
+                        {
+                            CodigoEntrega = entregaEN.CodigoEntrega,
+                            IdOrden = nuevaOrden.IdOrden,
+                            IdEstatusEntrega = entregaEN.IdEstatusEntrega,
+                            FechaCreacion = DateTime.Now,
+                            UsuarioCreacion = pedidoEN.UsuarioCreacion,
+                            Activo = true,
+                        };
+
+                        pedidosDBContextAD.Entrega.Add(nuevaEntrega);
+                        pedidosDBContextAD.SaveChanges();
+
                         respuestas.Creado("Pedido creado exitosamente.");
                     }
                     catch (Exception ex)
